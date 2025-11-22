@@ -1,0 +1,29 @@
+@model DmsCreditScoring.Models.ApplicationForm
+
+<div class="los-section-header">Informasi 3 – Pekerjaan &amp; THP</div>
+
+<table class="los-form-table">
+    <tr>
+        <td class="los-form-label">@Html.DisplayNameFor(m => m.CompanyCategory)</td>
+        <td class="los-form-input">
+            <select asp-for="CompanyCategory" asp-items="Html.GetEnumSelectList<CompanyCategory>()" class="form-control"></select>
+        </td>
+
+        <td class="los-form-label">@Html.DisplayNameFor(m => m.JobPosition)</td>
+        <td class="los-form-input">
+            <select asp-for="JobPosition" asp-items="Html.GetEnumSelectList<JobPosition>()" class="form-control"></select>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="los-form-label">@Html.DisplayNameFor(m => m.YearsWorking)</td>
+        <td class="los-form-input">
+            <input asp-for="YearsWorking" class="form-control" />
+        </td>
+
+        <td class="los-form-label">@Html.DisplayNameFor(m => m.TakeHomePay)</td>
+        <td class="los-form-input">
+            <input asp-for="TakeHomePay" class="form-control" />
+        </td>
+    </tr>
+</table>

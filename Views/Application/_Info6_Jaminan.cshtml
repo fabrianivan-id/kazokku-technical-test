@@ -1,0 +1,30 @@
+@model DmsCreditScoring.Models.ApplicationForm
+
+<div class="los-section-header">Informasi 6 – Jaminan</div>
+
+<table class="los-form-table">
+    <tr>
+        <td class="los-form-label">@Html.DisplayNameFor(m => m.AppraisalResult)</td>
+        <td class="los-form-input">
+            <select asp-for="AppraisalResult" asp-items="Html.GetEnumSelectList<AppraisalResult>()" class="form-control"></select>
+        </td>
+
+        <td class="los-form-label">@Html.DisplayNameFor(m => m.BuildingArea)</td>
+        <td class="los-form-input">
+            <input asp-for="BuildingArea" class="form-control" />
+        </td>
+    </tr>
+
+    <tr>
+        <td class="los-form-label">@Html.DisplayNameFor(m => m.FinancingPurpose)</td>
+        <td class="los-form-input">
+            <select asp-for="FinancingPurpose" asp-items="Html.GetEnumSelectList<FinancingPurpose>()" class="form-control"></select>
+        </td>
+
+        <td class="los-form-label">@Html.DisplayNameFor(m => m.LoanToValue)</td>
+        <td class="los-form-input">
+            <input asp-for="LoanToValue" class="form-control" />
+            <small class="form-text text-muted">Isi dalam %, misal 80 untuk 80%.</small>
+        </td>
+    </tr>
+</table>

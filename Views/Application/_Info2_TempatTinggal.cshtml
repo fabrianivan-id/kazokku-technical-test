@@ -1,0 +1,25 @@
+@model DmsCreditScoring.Models.ApplicationForm
+
+<div class="los-section-header">Informasi 2 – Tempat Tinggal</div>
+
+<table class="los-form-table">
+    <tr>
+        <td class="los-form-label">@Html.DisplayNameFor(m => m.AddressMatchesBank)</td>
+        <td class="los-form-input">
+            <input asp-for="AddressMatchesBank" type="checkbox" /> Sama dengan alamat di bank
+        </td>
+
+        <td class="los-form-label">@Html.DisplayNameFor(m => m.ResidenceOwnership)</td>
+        <td class="los-form-input">
+            <select asp-for="ResidenceOwnership" asp-items="Html.GetEnumSelectList<ResidenceOwnership>()" class="form-control"></select>
+        </td>
+    </tr>
+    <tr>
+        <td class="los-form-label">@Html.DisplayNameFor(m => m.YearsAtCurrentAddress)</td>
+        <td class="los-form-input">
+            <input asp-for="YearsAtCurrentAddress" class="form-control" />
+        </td>
+        <td class="los-form-label"></td>
+        <td class="los-form-input"></td>
+    </tr>
+</table>

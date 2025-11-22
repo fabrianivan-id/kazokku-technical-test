@@ -1,0 +1,55 @@
+@model DmsCreditScoring.Models.ScoringResult
+@{
+    var riskColor = (string)ViewData["RiskColor"];
+    var riskBg    = (string)ViewData["RiskBg"];
+    var riskIcon  = (string)ViewData["RiskIcon"];
+}
+
+<div class="dashboard-grid">
+    <!-- Kartu Score Utama -->
+    <div class="dashboard-card main-score-card" style="border-top: 4px solid @riskColor;">
+        <div class="score-header">HASIL ANALISA KREDIT</div>
+
+        <div class="risk-badge" style="background-color: @riskBg; color: @riskColor;">
+            <span class="risk-icon">@riskIcon</span>
+            <span class="risk-text">@Model.RiskLevel</span>
+        </div>
+
+        <div class="final-score-container">
+            <div class="score-label">Total Score</div>
+            <div class="score-value" style="color:@riskColor">@Model.TotalScore.ToString("F2")</div>
+            <div class="score-max">/ 100.00</div>
+        </div>
+
+        <div class="action-area">
+            <a asp-action="Index" class="btn-los-secondary">⟵ Kembali / Revisi Data</a>
+            <button type="button" class="btn-los-primary">Cetak Memo Analisa 🖨️</button>
+        </div>
+    </div>
+
+    <!-- Tabel Kontribusi -->
+    <div class="dashboard-card details-card">
+        <div class="los-section-header">Rincian Kontribusi Skor per Kategori</div>
+        <table class="los-table-clean">
+            <thead>
+            <tr>
+                <th>Kategori Informasi</th>
+                <th class="text-right">Nilai Akhir (Bobot x Skor)</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.GroupScores)
+            {
+                <tr>
+                    <td>@item.Key</td>
+                    <td class="text-right font-bold">@item.Value.ToString("F2")</td>
+                </tr>
+            }
+            <tr class="total-row">
+                <td><strong>TOTAL CALCULATED SCORE</strong></td>
+                <td class="text-right"><strong>@Model.TotalScore.ToString("F2")</strong></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

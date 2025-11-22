@@ -1,0 +1,64 @@
+@model DmsCreditScoring.Models.ApplicationForm
+
+<div class="los-panel">
+    <h6>INFORMASI 1 – Data Pemohon</h6>
+
+    <div class="row">
+        <!-- Umur Pemohon -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Umur Pemohon (Kategori)</label>
+                <select name="Info1_UmurPemohon" class="form-control">
+                    <option value="">-- Pilih --</option>
+                    <option value="56-65">56 - 65 Tahun</option>
+                    <option value="21-30">21 - 30 Tahun</option>
+                    <option value="31-45">31 - 45 Tahun</option>
+                    <option value="46-55">46 - 55 Tahun</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Umur Pemohon + Tenor -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Umur Pemohon + Tenor</label>
+                <select name="Info1_UmurTenor" class="form-control">
+                    <option value="">-- Pilih --</option>
+                    <option value="DiatasKetentuan">Di atas Ketentuan</option>
+                    <option value="DibawahKetentuan">Di bawah Ketentuan</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Status Perkawinan + Tanggungan -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Status Perkawinan &amp; Tanggungan</label>
+                <select name="Info1_StatusPerkawinanGroup" class="form-control">
+                    <option value="">-- Pilih --</option>
+                    <option value="BelumKawin_GT2">Belum Kawin, &gt; 2 tanggungan</option>
+                    <option value="BelumKawin_LTE2">Belum Kawin, ≤ 2 tanggungan</option>
+                    <option value="BelumKawin_0">Belum Kawin, 0 tanggungan</option>
+                    <option value="Kawin_GT2">Kawin, &gt; 2 tanggungan</option>
+                    <option value="Kawin_LTE2">Kawin, ≤ 2 tanggungan</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Pendidikan -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Pendidikan Terakhir</label>
+                <select name="Info1_Pendidikan" class="form-control">
+                    <option value="">-- Pilih --</option>
+                    <option value="SMA_Dibawah">SMA atau di bawahnya</option>
+                    <option value="D1_D4">D1 / D2 / D3 / D4</option>
+                    <option value="S1">S1</option>
+                    <option value="S2_S3">Master (S2) / Doktor (S3)</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

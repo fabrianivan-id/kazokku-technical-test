@@ -1,0 +1,492 @@
+@model DmsCreditScoring.Models.ApplicationForm
+
+@{
+    ViewData["Title"] = "Data Pemohon";
+    var displayName = string.IsNullOrWhiteSpace(Model.FullName)
+        ? "INPUT DATA PEMOHON"
+        : Model.FullName.ToUpperInvariant();
+}
+
+<style>
+:root {
+    --legacy-blue: #4b64c7;
+    --legacy-blue-light: #dbe4ff;
+    --legacy-border: #9aa8dd;
+    --legacy-bg: #f3f4fb;
+    --legacy-text: #1f3068;
+    --legacy-input: #fff8d6;
+    --legacy-shadow: rgba(41, 63, 153, 0.15);
+    --font-legacy: "Tahoma", "Segoe UI", Arial, sans-serif;
+}
+
+body { background: var(--legacy-bg); font-family: var(--font-legacy); font-size: 13px; margin: 0; }
+
+.legacy-shell {
+    border: 1px solid var(--legacy-border);
+    box-shadow: 0 8px 18px var(--legacy-shadow);
+    background: #fff;
+    max-width: 1400px;
+    margin: 12px auto;
+}
+
+.legacy-header {
+    background: linear-gradient(180deg, #5c77dc 0%, #4b64c7 100%);
+    color: #fff;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: bold;
+}
+.legacy-brand .brand-title { font-size: 16px; letter-spacing: 0.4px; }
+.legacy-brand .brand-sub { font-size: 11px; opacity: 0.9; }
+.legacy-tools { display: flex; gap: 12px; font-size: 12px; }
+.tool-link { cursor: pointer; text-decoration: underline; }
+
+.legacy-body { display: flex; min-height: 760px; }
+.legacy-sidebar {
+    width: 180px;
+    background: #f4f6ff;
+    border-right: 1px solid var(--legacy-border);
+    padding: 12px;
+}
+.sidebar-title {
+    font-weight: bold;
+    color: var(--legacy-text);
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--legacy-border);
+    padding-bottom: 6px;
+}
+.sidebar-menu { list-style: none; padding: 0; margin: 0; }
+.sidebar-menu li {
+    padding: 6px 8px;
+    border-radius: 3px;
+    color: #34426f;
+    cursor: default;
+}
+.sidebar-menu li.is-active {
+    background: #e5e9ff;
+    border: 1px solid var(--legacy-border);
+    font-weight: bold;
+}
+
+.legacy-main { flex: 1; padding: 0; display: flex; flex-direction: column; }
+.legacy-top-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 8px 10px 0;
+    background: #eef1fb;
+    border-bottom: 1px solid var(--legacy-border);
+}
+.top-tab {
+    padding: 6px 12px;
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0 0;
+    background: #e4e7fb;
+    color: #3c4f94;
+    font-weight: 600;
+}
+.top-tab.is-active {
+    background: #fff;
+    border: 1px solid var(--legacy-border);
+    border-bottom: 1px solid #fff;
+}
+
+.legacy-ribbon {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(180deg, #6e83de 0%, #5368c3 100%);
+    color: #fff;
+    padding: 10px 14px;
+    font-weight: bold;
+}
+.ribbon-title { letter-spacing: 0.3px; }
+.ribbon-action { display: flex; align-items: center; gap: 6px; }
+.ribbon-search {
+    height: 28px;
+    border: 1px solid #c8d0f1;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+.ribbon-btn {
+    background: #ffe599;
+    border: 1px solid #d1b655;
+    padding: 6px 10px;
+    border-radius: 3px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.legacy-subtabs {
+    display: flex;
+    gap: 6px;
+    padding: 10px 14px;
+    background: #f7f8ff;
+    border-bottom: 1px solid var(--legacy-border);
+    flex-wrap: wrap;
+}
+.subtab {
+    padding: 6px 12px;
+    border: 1px solid var(--legacy-border);
+    border-radius: 3px;
+    background: #f0f2ff;
+    color: #2f3e7a;
+    text-decoration: none;
+    font-weight: 600;
+}
+.subtab.is-active { background: #fff; }
+
+.legacy-form { padding: 16px; }
+.legacy-alert {
+    background: #fff9e1;
+    border: 1px solid #e7cf85;
+    padding: 10px 12px;
+    border-radius: 3px;
+    color: #6a5316;
+    margin-bottom: 12px;
+}
+.validation-block { margin-bottom: 8px; }
+
+.legacy-section { margin-top: 12px; }
+.legacy-section-title {
+    background: linear-gradient(180deg, #6c7fd7 0%, #4f65c2 100%);
+    color: #fff;
+    padding: 8px 12px;
+    font-weight: bold;
+    letter-spacing: 0.3px;
+    border: 1px solid #4558b6;
+    border-radius: 3px 3px 0 0;
+}
+
+.legacy-form-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--legacy-border);
+    background: #fff;
+}
+.legacy-form-table td {
+    padding: 8px 10px;
+    border: 1px solid #c5cff0;
+    vertical-align: middle;
+}
+.legacy-form-table .label {
+    background: linear-gradient(180deg, #e8edff 0%, #cbd6ff 100%);
+    font-weight: 700;
+    color: var(--legacy-text);
+    width: 22%;
+}
+.legacy-form-table .input {
+    background: #fdf9e6;
+    width: 28%;
+}
+
+.los-input, .los-select, textarea.los-input {
+    width: 100%;
+    border: 1px solid #9fa8d6;
+    background: var(--legacy-input);
+    padding: 6px 8px;
+    border-radius: 3px;
+    font-size: 13px;
+}
+.los-input:focus, .los-select:focus, textarea.los-input:focus {
+    outline: 2px solid #90a6ff;
+    background: #fff6c9;
+}
+.los-select { height: 32px; }
+textarea.los-input { min-height: 60px; resize: vertical; }
+.inline-check { display: flex; align-items: center; gap: 6px; font-weight: 600; color: #2f3e7a; }
+.muted { color: #6f6f6f; font-size: 11px; display: inline-block; margin-top: 4px; }
+
+.form-footer {
+    margin-top: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.los-submit-btn {
+    background: linear-gradient(180deg, #4f6bd7 0%, #3f55b8 100%);
+    border: 1px solid #2f4aa7;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 4px;
+    font-weight: bold;
+    letter-spacing: 0.3px;
+    box-shadow: 0 3px 6px var(--legacy-shadow);
+    cursor: pointer;
+}
+.los-submit-btn:hover { background: linear-gradient(180deg, #5976e3 0%, #445fc4 100%); }
+.footer-note { color: #4a4a4a; font-size: 12px; }
+
+.text-danger.small { display: block; margin-top: 4px; }
+</style>
+
+<div class="legacy-shell">
+    <div class="legacy-header">
+        <div class="legacy-brand">
+            <div class="brand-title">LOS Consumer</div>
+            <div class="brand-sub">Loan Origination System</div>
+        </div>
+        <div class="legacy-tools">
+            <span class="tool-link">Refresh</span>
+            <span class="tool-link">Back</span>
+        </div>
+    </div>
+
+    <div class="legacy-body">
+        <aside class="legacy-sidebar">
+            <div class="sidebar-title">Menu</div>
+            <ul class="sidebar-menu">
+                <li class="is-active">Data Entry</li>
+                <li>Marketing</li>
+                <li>Facilities</li>
+            </ul>
+        </aside>
+
+        <main class="legacy-main">
+            <div class="legacy-top-tabs">
+                <span class="top-tab is-active">Main</span>
+                <span class="top-tab">Data Entry Review</span>
+            </div>
+
+            <div class="legacy-ribbon">
+                <div class="ribbon-title">@displayName</div>
+                <div class="ribbon-action">
+                    <input type="text" placeholder="Cari No. Aplikasi" class="ribbon-search" value="@Model.ApplicationNumber" />
+                    <button type="button" class="ribbon-btn">Search</button>
+                </div>
+            </div>
+
+            <div class="legacy-subtabs">
+                <a href="#data-pemohon" class="subtab is-active">Data Pemohon</a>
+                <a href="#tempat-tinggal" class="subtab">Tempat Tinggal</a>
+                <a href="#pekerjaan" class="subtab">Pekerjaan</a>
+                <a href="#rekening" class="subtab">Rekening</a>
+                <a href="#tenor-dsr" class="subtab">Tenor &amp; DSR</a>
+                <a href="#jaminan" class="subtab">Jaminan</a>
+            </div>
+
+            <form asp-action="Index" method="post" class="legacy-form">
+                <div class="legacy-alert">
+                    <strong>Data Entry Review</strong> – pastikan semua kolom kuning terisi.
+                </div>
+                <div class="validation-block">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                </div>
+
+                <section id="data-pemohon" class="legacy-section">
+                    <div class="legacy-section-title">Data Pemohon</div>
+                    <table class="legacy-form-table">
+                        <tr>
+                            <td class="label">@Html.DisplayNameFor(m => m.ApplicationNumber)</td>
+                            <td class="input">
+                                <input asp-for="ApplicationNumber" class="los-input" />
+                                <span asp-validation-for="ApplicationNumber" class="text-danger small"></span>
+                            </td>
+                            <td class="label">@Html.DisplayNameFor(m => m.FullName)</td>
+                            <td class="input">
+                                <input asp-for="FullName" class="los-input" />
+                                <span asp-validation-for="FullName" class="text-danger small"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">@Html.DisplayNameFor(m => m.BirthPlace)</td>
+                            <td class="input">
+                                <input asp-for="BirthPlace" class="los-input" />
+                                <span asp-validation-for="BirthPlace" class="text-danger small"></span>
+                            </td>
+                            <td class="label">@Html.DisplayNameFor(m => m.BirthDate)</td>
+                            <td class="input">
+                                <input asp-for="BirthDate" type="date" class="los-input" />
+                                <span asp-validation-for="BirthDate" class="text-danger small"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">@Html.DisplayNameFor(m => m.Gender)</td>
+                            <td class="input">
+                                <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="los-select"></select>
+                                <span asp-validation-for="Gender" class="text-danger small"></span>
+                            </td>
+                            <td class="label">@Html.DisplayNameFor(m => m.MaritalStatus)</td>
+                            <td class="input">
+                                <select asp-for="MaritalStatus" asp-items="Html.GetEnumSelectList<MaritalStatus>()" class="los-select"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">@Html.DisplayNameFor(m => m.NumberOfDependants)</td>
+                            <td class="input">
+                                <input asp-for="NumberOfDependants" class="los-input" />
+                            </td>
+                            <td class="label">@Html.DisplayNameFor(m => m.Age)</td>
+                            <td class="input">
+                                <input asp-for="Age" class="los-input" />
+                                <small class="muted">Boleh kosong, akan dihitung dari tanggal lahir.</small>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">@Html.DisplayNameFor(m => m.Education)</td>
+                            <td class="input" colspan="3">
+                                <select asp-for="Education" asp-items="Html.GetEnumSelectList<EducationLevel>()" class="los-select"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">@Html.DisplayNameFor(m => m.Address)</td>
+                            <td class="input" colspan="3">
+                                <textarea asp-for="Address" rows="2" class="los-input"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">@Html.DisplayNameFor(m => m.PostalCode)</td>
+                            <td class="input">
+                                <input asp-for="PostalCode" class="los-input" />
+                            </td>
+                            <td class="label"></td>
+                            <td class="input"></td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section id="tempat-tinggal" class="legacy-section">
+                    <div class="legacy-section-title">Tempat Tinggal</div>
+                    <table class="legacy-form-table">
+                        <tr>
+                            <td class="label">@Html.DisplayNameFor(m => m.AddressMatchesBank)</td>
+                            <td class="input">
+                                <label class="inline-check">
+                                    <input asp-for="AddressMatchesBank" type="checkbox" />
+                                    Sama dengan alamat di bank
+                                </label>
+                            </td>
+                            <td class="label">@Html.DisplayNameFor(m => m.ResidenceOwnership)</td>
+                            <td class="input">
+                                <select asp-for="ResidenceOwnership" asp-items="Html.GetEnumSelectList<ResidenceOwnership>()" class="los-select"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">@Html.DisplayNameFor(m => m.YearsAtCurrentAddress)</td>
+                            <td class="input">
+                                <input asp-for="YearsAtCurrentAddress" class="los-input" />
+                            </td>
+                            <td class="label"></td>
+                            <td class="input"></td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section id="pekerjaan" class="legacy-section">
+                    <div class="legacy-section-title">Pekerjaan &amp; Penghasilan</div>
+                    <table class="legacy-form-table">
+                        <tr>
+                            <td class="label">@Html.DisplayNameFor(m => m.CompanyCategory)</td>
+                            <td class="input">
+                                <select asp-for="CompanyCategory" asp-items="Html.GetEnumSelectList<CompanyCategory>()" class="los-select"></select>
+                            </td>
+                            <td class="label">@Html.DisplayNameFor(m => m.JobPosition)</td>
+                            <td class="input">
+                                <select asp-for="JobPosition" asp-items="Html.GetEnumSelectList<JobPosition>()" class="los-select"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">@Html.DisplayNameFor(m => m.YearsWorking)</td>
+                            <td class="input">
+                                <input asp-for="YearsWorking" class="los-input" />
+                            </td>
+                            <td class="label">@Html.DisplayNameFor(m => m.TakeHomePay)</td>
+                            <td class="input">
+                                <input asp-for="TakeHomePay" class="los-input" />
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section id="rekening" class="legacy-section">
+                    <div class="legacy-section-title">Rekening &amp; Histori</div>
+                    <table class="legacy-form-table">
+                        <tr>
+                            <td class="label">@Html.DisplayNameFor(m => m.BankAccountType)</td>
+                            <td class="input">
+                                <select asp-for="BankAccountType" asp-items="Html.GetEnumSelectList<BankAccountType>()" class="los-select"></select>
+                            </td>
+                            <td class="label">@Html.DisplayNameFor(m => m.AverageMonthlyBalance)</td>
+                            <td class="input">
+                                <input asp-for="AverageMonthlyBalance" class="los-input" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">@Html.DisplayNameFor(m => m.InstallmentHistory)</td>
+                            <td class="input">
+                                <select asp-for="InstallmentHistory" asp-items="Html.GetEnumSelectList<InstallmentHistory>()" class="los-select"></select>
+                            </td>
+                            <td class="label">@Html.DisplayNameFor(m => m.SlikStatus)</td>
+                            <td class="input">
+                                <select asp-for="SlikStatus" asp-items="Html.GetEnumSelectList<SlikStatus>()" class="los-select"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">@Html.DisplayNameFor(m => m.CreditCardOwnership)</td>
+                            <td class="input">
+                                <select asp-for="CreditCardOwnership" asp-items="Html.GetEnumSelectList<CreditCardOwnership>()" class="los-select"></select>
+                            </td>
+                            <td class="label"></td>
+                            <td class="input"></td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section id="tenor-dsr" class="legacy-section">
+                    <div class="legacy-section-title">Tenor &amp; DSR</div>
+                    <table class="legacy-form-table">
+                        <tr>
+                            <td class="label">@Html.DisplayNameFor(m => m.TenorYears)</td>
+                            <td class="input">
+                                <input asp-for="TenorYears" class="los-input" />
+                            </td>
+                            <td class="label">@Html.DisplayNameFor(m => m.DebtServiceRatio)</td>
+                            <td class="input">
+                                <input asp-for="DebtServiceRatio" class="los-input" />
+                                <small class="muted">Isi dalam %, contoh: 35 untuk 35%.</small>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section id="jaminan" class="legacy-section">
+                    <div class="legacy-section-title">Jaminan</div>
+                    <table class="legacy-form-table">
+                        <tr>
+                            <td class="label">@Html.DisplayNameFor(m => m.AppraisalResult)</td>
+                            <td class="input">
+                                <select asp-for="AppraisalResult" asp-items="Html.GetEnumSelectList<AppraisalResult>()" class="los-select"></select>
+                            </td>
+                            <td class="label">@Html.DisplayNameFor(m => m.BuildingArea)</td>
+                            <td class="input">
+                                <input asp-for="BuildingArea" class="los-input" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">@Html.DisplayNameFor(m => m.FinancingPurpose)</td>
+                            <td class="input">
+                                <select asp-for="FinancingPurpose" asp-items="Html.GetEnumSelectList<FinancingPurpose>()" class="los-select"></select>
+                            </td>
+                            <td class="label">@Html.DisplayNameFor(m => m.LoanToValue)</td>
+                            <td class="input">
+                                <input asp-for="LoanToValue" class="los-input" />
+                                <small class="muted">Isi dalam %, misal 80 untuk 80%.</small>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+
+                <div class="form-footer">
+                    <button type="submit" class="los-submit-btn">Hitung Skor</button>
+                    <div class="footer-note">Tekan tombol Hitung Skor setelah semua data sesuai dokumen.</div>
+                </div>
+            </form>
+        </main>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

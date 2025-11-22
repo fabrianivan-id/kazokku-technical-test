@@ -1,0 +1,251 @@
+@model DmsCreditScoring.Models.ScoringResult
+@{
+    ViewData["Title"] = "Hasil Scoring";
+
+    var risk = Model.RiskLevel?.ToUpperInvariant() ?? "";
+    var (riskColor, riskBg, riskIcon) = risk switch {
+        "HIGH RISK"   => ("#d32f2f", "#ffebee", "⚠️"),
+        "MEDIUM RISK" => ("#f57c00", "#fff3e0", "⚖️"),
+        "LOW RISK"    => ("#388e3c", "#e8f5e9", "✅"),
+        _             => ("#666", "#eee", "❓")
+    };
+}
+
+<style>
+:root {
+    --legacy-blue: #4b64c7;
+    --legacy-blue-light: #dbe4ff;
+    --legacy-border: #9aa8dd;
+    --legacy-bg: #f3f4fb;
+    --legacy-text: #1f3068;
+    --legacy-input: #fff8d6;
+    --legacy-shadow: rgba(41, 63, 153, 0.15);
+    --font-legacy: "Tahoma", "Segoe UI", Arial, sans-serif;
+}
+
+body { background: var(--legacy-bg); font-family: var(--font-legacy); font-size: 13px; margin: 0; }
+
+.legacy-shell {
+    border: 1px solid var(--legacy-border);
+    box-shadow: 0 8px 18px var(--legacy-shadow);
+    background: #fff;
+    max-width: 1400px;
+    margin: 12px auto;
+    min-height: 640px;
+}
+.legacy-header {
+    background: linear-gradient(180deg, #5c77dc 0%, #4b64c7 100%);
+    color: #fff;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: bold;
+}
+.legacy-header-left { display: flex; align-items: center; gap: 8px; }
+.legacy-brand { font-size: 16px; letter-spacing: 0.4px; }
+.legacy-desc { font-size: 11px; opacity: 0.9; }
+.legacy-header-right { font-size: 11px; }
+
+.legacy-top-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 8px 10px 0;
+    background: #eef1fb;
+    border-bottom: 1px solid var(--legacy-border);
+}
+.top-tab {
+    padding: 6px 12px;
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0 0;
+    background: #e4e7fb;
+    color: #3c4f94;
+    font-weight: 600;
+    cursor: default;
+}
+.top-tab.is-active {
+    background: #fff;
+    border: 1px solid var(--legacy-border);
+    border-bottom: 1px solid #fff;
+}
+
+.legacy-ribbon {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(180deg, #6e83de 0%, #5368c3 100%);
+    color: #fff;
+    padding: 10px 14px;
+    font-weight: bold;
+}
+.ribbon-title { letter-spacing: 0.3px; }
+.ribbon-risk { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 4px; background: rgba(255,255,255,0.2); }
+
+.los-tabs {
+    display:flex;
+    background: #f1f3f6;
+    border-bottom: 1px solid var(--legacy-border);
+    padding: 6px 6px 0 6px;
+    gap: 2px;
+}
+.los-tab {
+    padding: 6px 15px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    color: #555;
+    border-radius: 4px 4px 0 0;
+    font-size: 12px;
+}
+.los-tab.is-active {
+    background: #fff;
+    border: 1px solid var(--legacy-border);
+    border-bottom: 1px solid #fff;
+    font-weight: bold;
+    color: var(--legacy-text);
+    border-top: 3px solid var(--legacy-blue);
+    margin-bottom: -1px;
+}
+
+.los-content { padding: 16px; background: #fff; }
+.tab-panel { display: none; }
+.tab-panel.is-active { display: block; }
+
+.dashboard-grid {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.dashboard-card {
+    background: #fff;
+    border: 1px solid var(--legacy-border);
+    border-radius: 3px;
+    padding: 16px;
+    box-shadow: 0 4px 8px var(--legacy-shadow);
+    flex: 1;
+}
+.main-score-card {
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.score-header {
+    font-size: 14px; font-weight: bold; color: #2f3e7a; margin-bottom: 12px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+}
+.risk-badge {
+    padding: 10px 16px; border-radius: 4px; margin-bottom: 16px;
+    display: inline-flex; align-items: center; gap: 8px; font-weight: bold; font-size: 16px;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.final-score-container { margin-bottom: 16px; }
+.score-label { font-size: 12px; color: #555; }
+.score-value { font-size: 42px; font-weight: bold; line-height: 1; }
+.score-max { font-size: 13px; color: #777; }
+.action-area { margin-top: auto; width: 100%; display: flex; flex-direction: column; gap: 8px;}
+
+.los-section-header {
+    background: linear-gradient(to right, #9bb0db, #c5d3ed);
+    color: #1a3b85;
+    font-weight: bold;
+    padding: 6px 10px;
+    font-size: 12px;
+    text-transform: uppercase;
+    border: 1px solid #8fa6d6;
+    margin-bottom: 10px;
+    border-radius: 2px;
+}
+.los-table-clean { width: 100%; border-collapse: collapse; }
+.los-table-clean th {
+    text-align: left; border-bottom: 2px solid #eee; padding: 8px; color: #666; font-size: 12px;
+}
+.los-table-clean td { padding: 8px; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+.total-row td { border-top: 2px solid #ccc; background: #f9f9f9; padding: 10px 8px; }
+
+.btn-los-primary {
+    background: var(--legacy-blue);
+    color: white; border: none;
+    padding: 10px; width: 100%;
+    font-weight: bold; cursor: pointer; border-radius: 3px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+.btn-los-primary:hover { background: #3f55b8; }
+.btn-los-secondary {
+    display: block; text-decoration: none; background: #fff; border: 1px solid #ccc;
+    color: #555; padding: 8px; text-align: center; cursor: pointer; border-radius: 3px;
+}
+.btn-los-secondary:hover { background: #f9f9f9; }
+
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.font-bold { font-weight: bold; }
+</style>
+
+<div class="legacy-shell">
+    <div class="legacy-header">
+        <div class="legacy-header-left">
+            <span class="legacy-brand">LOS Consumer</span>
+            <span class="legacy-desc">| Scoring Result</span>
+        </div>
+        <div class="legacy-header-right">
+            Ref ID: <strong>@DateTime.Now.ToString("yyyyMMdd-HHmmss")</strong>
+        </div>
+    </div>
+
+    <div class="legacy-top-tabs">
+        <span class="top-tab">Data Entry Review</span>
+        <span class="top-tab is-active">Scoring Result</span>
+    </div>
+
+    <div class="legacy-ribbon">
+        <div class="ribbon-title">HASIL ANALISA | @Model.RiskLevel</div>
+        <div class="ribbon-risk" style="background:@riskBg; color:@riskColor; border:1px solid @riskColor;">
+            <span>@riskIcon</span> <span>@Model.TotalScore.ToString("F2")</span>
+        </div>
+    </div>
+
+    <div class="los-tabs" data-tab-group="result">
+        <button class="los-tab is-active" data-tab="tab-summary">Ringkasan Eksekutif</button>
+        <button class="los-tab" data-tab="tab-info1">1. Demografis</button>
+        <button class="los-tab" data-tab="tab-info2">2. Domisili</button>
+        <button class="los-tab" data-tab="tab-info3">3. Pekerjaan</button>
+        <button class="los-tab" data-tab="tab-info4">4. Bank &amp; Histori</button>
+        <button class="los-tab" data-tab="tab-info5">5. Tenor &amp; DSR</button>
+        <button class="los-tab" data-tab="tab-info6">6. Jaminan</button>
+    </div>
+
+    <div class="los-content">
+        <div class="tab-panel is-active" data-tab-panel="tab-summary">
+            @await Html.PartialAsync("_ResultSummary", Model, new ViewDataDictionary(ViewData)
+            {
+                { "RiskColor", riskColor },
+                { "RiskBg", riskBg },
+                { "RiskIcon", riskIcon }
+            })
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const tabGroup = document.querySelector('.los-tabs[data-tab-group="result"]');
+    if (!tabGroup) return;
+    const tabs = tabGroup.querySelectorAll(".los-tab");
+    const panels = document.querySelectorAll(".tab-panel");
+
+    tabs.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const target = btn.dataset.tab;
+            tabs.forEach(x => x.classList.remove("is-active"));
+            btn.classList.add("is-active");
+            panels.forEach(p => {
+                p.classList.toggle("is-active", p.dataset.tabPanel === target);
+            });
+        });
+    });
+});
+</script>
+}

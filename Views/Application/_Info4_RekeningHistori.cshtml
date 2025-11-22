@@ -1,0 +1,38 @@
+@model DmsCreditScoring.Models.ApplicationForm
+
+<div class="los-section-header">Informasi 4 – Rekening &amp; Histori</div>
+
+<table class="los-form-table">
+    <tr>
+        <td class="los-form-label">@Html.DisplayNameFor(m => m.BankAccountType)</td>
+        <td class="los-form-input">
+            <select asp-for="BankAccountType" asp-items="Html.GetEnumSelectList<BankAccountType>()" class="form-control"></select>
+        </td>
+
+        <td class="los-form-label">@Html.DisplayNameFor(m => m.AverageMonthlyBalance)</td>
+        <td class="los-form-input">
+            <input asp-for="AverageMonthlyBalance" class="form-control" />
+        </td>
+    </tr>
+
+    <tr>
+        <td class="los-form-label">@Html.DisplayNameFor(m => m.InstallmentHistory)</td>
+        <td class="los-form-input">
+            <select asp-for="InstallmentHistory" asp-items="Html.GetEnumSelectList<InstallmentHistory>()" class="form-control"></select>
+        </td>
+
+        <td class="los-form-label">@Html.DisplayNameFor(m => m.SlikStatus)</td>
+        <td class="los-form-input">
+            <select asp-for="SlikStatus" asp-items="Html.GetEnumSelectList<SlikStatus>()" class="form-control"></select>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="los-form-label">@Html.DisplayNameFor(m => m.CreditCardOwnership)</td>
+        <td class="los-form-input">
+            <select asp-for="CreditCardOwnership" asp-items="Html.GetEnumSelectList<CreditCardOwnership>()" class="form-control"></select>
+        </td>
+        <td class="los-form-label"></td>
+        <td class="los-form-input"></td>
+    </tr>
+</table>

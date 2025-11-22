@@ -1,0 +1,35 @@
+@model DmsCreditScoring.Models.ApplicationForm
+
+<div class="los-panel">
+    <h6>INFORMASI 5 – Fasilitas Pembiayaan</h6>
+
+    <div class="row">
+        <!-- Tenor -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Tenor Kredit</label>
+                <select name="Info5_Tenor" class="form-control">
+                    <option value="">-- Pilih --</option>
+                    <option value="GT15">&gt; 15 Tahun</option>
+                    <option value="GT10_LE15">&gt; 10 – 15 Tahun</option>
+                    <option value="GT5_LE10">&gt; 5 – 10 Tahun</option>
+                    <option value="LE5">≤ 5 Tahun</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- DSR -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Debt Service Ratio (DSR)</label>
+                <select name="Info5_DSR" class="form-control">
+                    <option value="">-- Pilih --</option>
+                    <option value="GT50">&gt; 50%</option>
+                    <option value="GT40_LE50">&gt; 40 – 50%</option>
+                    <option value="GT30_LE40">&gt; 30 – 40%</option>
+                    <option value="LE30">≤ 30%</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
