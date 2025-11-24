@@ -394,7 +394,7 @@ textarea.los-input { min-height: 60px; resize: vertical; }
                             </td>
                             <td class="label">@Html.DisplayNameFor(m => m.TakeHomePay)</td>
                             <td class="input">
-                                <input asp-for="TakeHomePay" class="los-input" />
+                                <input asp-for="TakeHomePay" class="los-input" data-currency-input="true" inputmode="decimal" autocomplete="off" />
                             </td>
                         </tr>
                     </table>
@@ -410,7 +410,7 @@ textarea.los-input { min-height: 60px; resize: vertical; }
                             </td>
                             <td class="label">@Html.DisplayNameFor(m => m.AverageMonthlyBalance)</td>
                             <td class="input">
-                                <input asp-for="AverageMonthlyBalance" class="los-input" />
+                                <input asp-for="AverageMonthlyBalance" class="los-input" data-currency-input="true" inputmode="decimal" autocomplete="off" />
                             </td>
                         </tr>
                         <tr>
@@ -489,4 +489,49 @@ textarea.los-input { min-height: 60px; resize: vertical; }
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+    // Format currency inputs to "Rp 10.000.000,00" while typing, and strip formatting before submit
+    (() => {
+        const currencyInputs = document.querySelectorAll('[data-currency-input="true"]');
+        if (!currencyInputs.length) return;
+
+        const formatter = new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+
+        const toNumeric = (value) => value.replace(/[^0-9]/g, "");
+        const formatValue = (value) => {
+            const cleaned = toNumeric(value);
+            if (!cleaned) return "";
+            const number = parseInt(cleaned, 10);
+            return formatter.format(number).replace(/\u00A0/g, " ");
+        };
+
+        currencyInputs.forEach((input) => {
+            const applyFormat = () => { input.value = formatValue(input.value); };
+            const handleInput = () => {
+                const posFromEnd = input.value.length - input.selectionStart;
+                applyFormat();
+                const newPos = Math.max(0, input.value.length - posFromEnd);
+                input.setSelectionRange(newPos, newPos);
+            };
+            input.addEventListener("input", handleInput);
+            input.addEventListener("blur", applyFormat);
+            if (input.value) applyFormat();
+        });
+
+        const form = document.querySelector(".legacy-form");
+        if (form) {
+            form.addEventListener("submit", () => {
+                currencyInputs.forEach((input) => {
+                    const cleaned = toNumeric(input.value);
+                    input.value = cleaned ? parseInt(cleaned, 10).toString() : "";
+                });
+            });
+        }
+    })();
+    </script>
 }

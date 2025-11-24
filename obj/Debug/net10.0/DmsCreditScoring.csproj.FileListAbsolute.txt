@@ -90,3 +90,4 @@
 /Users/fabrianivan/kazokku-test/DmsCreditScoring/obj/Debug/net10.0/DmsCreditScoring.genruntimeconfig.cache
 /Users/fabrianivan/kazokku-test/DmsCreditScoring/obj/Debug/net10.0/ref/DmsCreditScoring.dll
 /Users/fabrianivan/kazokku-test/DmsCreditScoring/obj/Debug/net10.0/compressed/pqg4doltr1-{0}-lugek5hnai-lugek5hnai.gz
+/Users/fabrianivan/kazokku-test/DmsCreditScoring/obj/Debug/net10.0/DmsCreditScoring.sourcelink.json
