@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DmsCreditScoring")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+79d6aaa613c66066e3d221a9df65defddafce220")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8d1dc402d89a7c3c4fa9f736d9cd46fdb3d885af")]
 [assembly: System.Reflection.AssemblyProductAttribute("DmsCreditScoring")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DmsCreditScoring")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

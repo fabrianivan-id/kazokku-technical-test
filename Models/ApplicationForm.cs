@@ -5,34 +5,36 @@ namespace DmsCreditScoring.Models
 {
     public class ApplicationForm
     {
+        private const string RequiredMessage = "\"{0}\" field is required";
+
         // ===== INFORMASI APLIKASI UTAMA =====
 
-        [Required]
+        [Required(ErrorMessage = RequiredMessage)]
         [Display(Name = "No Aplikasi")]
         public string ApplicationNumber { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = RequiredMessage)]
         [Display(Name = "Nama Pemohon")]
         public string FullName { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = RequiredMessage)]
         [Display(Name = "Tempat Lahir")]
         public string BirthPlace { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = RequiredMessage)]
         [DataType(DataType.Date)]
         [Display(Name = "Tanggal Lahir")]
         public DateTime BirthDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = RequiredMessage)]
         [Display(Name = "Jenis Kelamin")]
         public Gender Gender { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = RequiredMessage)]
         [Display(Name = "Alamat")]
         public string Address { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = RequiredMessage)]
         [Display(Name = "Kode Pos")]
         public string PostalCode { get; set; } = string.Empty;
 
@@ -40,19 +42,19 @@ namespace DmsCreditScoring.Models
         [Display(Name = "Umur (tahun)")]
         public int Age { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = RequiredMessage)]
         [Display(Name = "Tenor (tahun)")]
         public int TenorYears { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = RequiredMessage)]
         [Display(Name = "Status Perkawinan")]
         public MaritalStatus MaritalStatus { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = RequiredMessage)]
         [Display(Name = "Jumlah Tanggungan")]
         public int NumberOfDependants { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = RequiredMessage)]
         [Display(Name = "Pendidikan Terakhir")]
         public EducationLevel Education { get; set; }
 

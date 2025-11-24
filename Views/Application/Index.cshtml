@@ -490,24 +490,32 @@ textarea.los-input { min-height: 60px; resize: vertical; }
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-    // Format currency inputs to "Rp 10.000.000,00" while typing, and strip formatting before submit
+    // Format currency inputs to "10.000.000,00" while typing, and strip formatting before submit
     (() => {
         const currencyInputs = document.querySelectorAll('[data-currency-input="true"]');
         if (!currencyInputs.length) return;
 
         const formatter = new Intl.NumberFormat("id-ID", {
-            style: "currency",
-            currency: "IDR",
+            style: "decimal",
+            useGrouping: true,
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
         });
 
-        const toNumeric = (value) => value.replace(/[^0-9]/g, "");
+        const parseValue = (value) => {
+            const normalized = value
+                .replace(/\./g, "")
+                .replace(/,/g, ".")
+                .replace(/[^0-9.]/g, "")
+                .trim();
+            if (!normalized) return Number.NaN;
+            return Number.parseFloat(normalized);
+        };
+
         const formatValue = (value) => {
-            const cleaned = toNumeric(value);
-            if (!cleaned) return "";
-            const number = parseInt(cleaned, 10);
-            return formatter.format(number).replace(/\u00A0/g, " ");
+            const parsed = parseValue(value);
+            if (Number.isNaN(parsed)) return "";
+            return formatter.format(parsed);
         };
 
         currencyInputs.forEach((input) => {
@@ -527,8 +535,8 @@ textarea.los-input { min-height: 60px; resize: vertical; }
         if (form) {
             form.addEventListener("submit", () => {
                 currencyInputs.forEach((input) => {
-                    const cleaned = toNumeric(input.value);
-                    input.value = cleaned ? parseInt(cleaned, 10).toString() : "";
+                    const parsed = parseValue(input.value);
+                    input.value = Number.isNaN(parsed) ? "" : parsed.toString();
                 });
             });
         }
